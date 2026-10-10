@@ -23,6 +23,7 @@ built-in Omarchy shell, so it looks different.
 git clone --depth 1 https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
 ln -s ~/.local/share/mac-transparent-theme ~/.config/omarchy/themes/mac-transparent
 omarchy hook install theme-set ~/.local/share/mac-transparent-theme/hooks/theme-set-gtk4
+omarchy hook install theme-set ~/.local/share/mac-transparent-theme/hooks/theme-set-accent-icons
 omarchy theme set "Mac Transparent"
 hyprctl configerrors   # should print nothing
 ```
@@ -57,7 +58,8 @@ re-applying the theme advances to the next one.
 | `swayosd.css`              | `shell.popups.toml`                                |
 | `hyprlock.conf`            | `shell.lock.toml`                                  |
 | `gtk.css`                  | `gtk4.css` (Files) + `hooks/theme-set-gtk4`        |
-| `btop.theme`, `icons.theme`, `backgrounds/` | kept                              |
+| `icons.theme` (Yaru-sage)  | `Omarchy-Accent` + `hooks/theme-set-accent-icons`  |
+| `btop.theme`, `backgrounds/` | kept                                             |
 
 Each `shell.<section>.toml` replaces only that section of the `shell.toml`
 Omarchy generates, so the remaining sections keep tracking Omarchy updates.
@@ -92,6 +94,15 @@ translucent, text stays sharp; foot picks the change up in new windows.
 `~/.config/hypr/looknfeel.lua` loads after the theme, so gaps, border size,
 rounding and the workspace animation set there win over the theme's.
 
+## Folder icons
+
+`icons.theme` names `Omarchy-Accent`, an icon theme the
+`theme-set-accent-icons` hook builds on top of Yaru-blue-dark with every
+folder icon recolored to `accent` from `colors.toml` (`#7ca5ff`). Change the
+accent and re-apply the theme, and the folders follow. The build takes under
+a second and only reruns when the accent changes; the result lives in
+`~/.local/share/icons/Omarchy-Accent`. Any theme can opt in the same way.
+
 ## Files (Nautilus)
 
 `gtk4.css` turns the Files window into the same blurred glass: translucent
@@ -123,6 +134,17 @@ Restart Firefox completely. Adjust the glass with `--mt-bg` and
 `--mt-bg-raised` at the top of `chrome/userChrome.css`. To remove it, delete
 `$P/chrome` and `$P/user.js` and restart. Firefox doesn't follow Omarchy theme
 changes; it keeps these colors until you remove `chrome/`.
+
+## Performance
+
+Hyprland only redraws what changed, and with `new_optimizations` the blurred
+wallpaper is computed once and reused behind every tiled window, so an idle
+desktop costs nothing extra. Blur is recomputed when what's behind a
+translucent surface changes: windows and animations moving, a floating window
+over a busy one, menus and notifications appearing. On a laptop that shows up
+as a little extra GPU work and battery during heavy window shuffling. To trim
+it, lower `blur.passes` to 2 (biggest win) or `shadow.range` in
+`hyprland.lua`; `SUPER + BACKSPACE` makes a single window opaque.
 
 ## Credits
 

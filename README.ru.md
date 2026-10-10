@@ -19,6 +19,7 @@ Omarchy 4 бар встроенный, поэтому выглядит инач�
 git clone --depth 1 https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
 ln -s ~/.local/share/mac-transparent-theme ~/.config/omarchy/themes/mac-transparent
 omarchy hook install theme-set ~/.local/share/mac-transparent-theme/hooks/theme-set-gtk4
+omarchy hook install theme-set ~/.local/share/mac-transparent-theme/hooks/theme-set-accent-icons
 omarchy theme set "Mac Transparent"
 hyprctl configerrors   # должно быть пусто
 ```
@@ -53,7 +54,8 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 | `swayosd.css`             | `shell.popups.toml`                                |
 | `hyprlock.conf`           | `shell.lock.toml`                                  |
 | `gtk.css`                 | `gtk4.css` («Файлы») + `hooks/theme-set-gtk4`      |
-| `btop.theme`, `icons.theme`, `backgrounds/` | без изменений по смыслу          |
+| `icons.theme` (Yaru-sage) | `Omarchy-Accent` + `hooks/theme-set-accent-icons`  |
+| `btop.theme`, `backgrounds/` | без изменений по смыслу                         |
 
 Каждый `shell.<секция>.toml` заменяет только свою секцию в `shell.toml`,
 который Omarchy генерирует сам. Остальные секции продолжат обновляться вместе
@@ -90,6 +92,15 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 отступы, толщина рамки, скругление и анимация рабочих столов перекрывают
 значения темы.
 
+## Иконки папок
+
+В `icons.theme` указана `Omarchy-Accent` — тема иконок, которую хук
+`theme-set-accent-icons` собирает на основе Yaru-blue-dark, перекрашивая все
+папки в `accent` из `colors.toml` (`#7ca5ff`). Если поменять акцент и
+переприменить тему, папки перекрасятся следом. Сборка занимает меньше секунды
+и повторяется только при смене акцента; результат лежит в
+`~/.local/share/icons/Omarchy-Accent`. Так же может подключиться любая тема.
+
 ## «Файлы» (Nautilus)
 
 `gtk4.css` делает окно «Файлов» таким же стеклянным: полупрозрачное окно,
@@ -122,6 +133,18 @@ cp ~/.local/share/mac-transparent-theme/firefox/user.js "$P/user.js"
 `--mt-bg` и `--mt-bg-raised` в начале `chrome/userChrome.css`. Откат: удалить
 `$P/chrome` и `$P/user.js`, перезапустить Firefox. Firefox не следит за
 сменой темы Omarchy и сохраняет эти цвета, пока не удалить `chrome/`.
+
+## Производительность
+
+Hyprland перерисовывает только то, что изменилось, а с `new_optimizations`
+размытые обои считаются один раз и переиспользуются под всеми тайловыми
+окнами, так что в простое прозрачность ничего не стоит. Размытие
+пересчитывается, когда меняется то, что под полупрозрачной поверхностью:
+движутся окна и анимации, плавающее окно висит над активным, появляются меню
+и уведомления. На ноутбуке это немного лишней работы GPU и батареи при
+активном перемещении окон. Облегчить: уменьшить `blur.passes` до 2 (самый
+большой выигрыш) или `shadow.range` в `hyprland.lua`; `SUPER + BACKSPACE`
+делает одно окно непрозрачным.
 
 ## Авторы
 

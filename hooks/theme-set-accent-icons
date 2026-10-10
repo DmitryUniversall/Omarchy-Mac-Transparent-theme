@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Omarchy theme-set hook: folder icons in the theme's accent color.
+# Install with: omarchy hook install theme-set hooks/theme-set-accent-icons
+#
+# A theme opts in with `Omarchy-Accent` in its icons.theme. The hook builds
+# that icon theme on top of Yaru-blue-dark, with every Places icon (folders,
+# home, downloads, ...) recolored to `accent` from the theme's colors.toml.
+# It only rebuilds when the accent changes.
+
+theme_dir="$HOME/.local/state/omarchy/current/theme"
+base="/usr/share/icons/Yaru-blue-dark"
+dest="${XDG_DATA_HOME:-$HOME/.local/share}/icons/Omarchy-Accent"
+
+[[ -f $theme_dir/icons.theme && $(<"$theme_dir/icons.theme") == "Omarchy-Accent" ]] || exit 0
+[[ -d $base ]] || exit 0
+
+accent=$(omarchy-theme-color --file "$theme_dir/colors.toml" accent)
+[[ $accent =~ ^#[0-9A-Fa-f]{6}$ ]] || exit 0
+
+stamp="$accent $(stat -c %Y "$base/index.theme")"
+[[ -f $dest/.stamp && $(<"$dest/.stamp") == "$stamp" ]] && exit 0
+
+hsl() {
+  magick xc:"$1" -colorspace HSL -format '%[fx:r*360] %[fx:g*100] %[fx:b*100]' info:
+}
+
+# Yaru's folder body color, sampled from the folder's front face.
+base_color=$(magick "$base/256x256/places/folder.png" -alpha off -crop 60x30+98+150 +repage \
+  -scale '1x1!' -format '#%[hex:p{0,0}]' info:)
+
+# Shift hue, saturation and lightness so the base color lands exactly on the
+# accent; the folder's darker tab and emblem keep their relative shading.
+read -r bh bs bl < <(hsl "$base_color")
+read -r th ts tl < <(hsl "$accent")
+modulate=$(awk -v bh="$bh" -v bs="$bs" -v bl="$bl" -v th="$th" -v ts="$ts" -v tl="$tl" 'BEGIN {
+  d = th - bh; if (d > 180) d -= 360; if (d < -180) d += 360
+  printf "%.2f,%.2f,%.2f", (bl > 0 ? tl / bl * 100 : 100), (bs > 0 ? ts / bs * 100 : 100), 100 + d / 180 * 100
+}')
+
+# Build next to the old copy and swap it in, so apps never see a half-built
+# theme. Any failure leaves the previous build in place.
+set -o pipefail
+mkdir -p "${dest%/*}" || exit 1
+tmp=$(mktemp -d "$dest.XXXXXX") || exit 1
+trap 'rm -rf "$tmp"' EXIT
+
+for places in "$base"/*/places; do
+  rel=${places#"$base"/}
+  mkdir -p "$tmp/$rel" || exit 1
+  for icon in "$places"/*; do
+    if [[ -L $icon ]]; then
+      cp -P "$icon" "$tmp/$rel/" || exit 1
+    else
+      printf '%s\0%s\0' "$icon" "$tmp/$rel/${icon##*/}"
+    fi
+  done
+done | xargs -0 -n 2 -P "$(nproc)" sh -c 'magick "$1" -modulate "$0" "$2"' "$modulate" || exit 1
+
+{
+  echo "[Icon Theme]"
+  echo "Name=Omarchy-Accent"
+  echo "Comment=Yaru with Places icons in the Omarchy theme accent ($accent)"
+  echo "Inherits=Yaru-blue-dark,hicolor"
+  printf 'Directories=%s\n' "$(cd "$tmp" && printf '%s,' */places | sed 's/,$//')"
+  echo
+  awk '/^\[/ { keep = ($0 ~ /\/places\]$/) } keep' "$base/index.theme"
+} >"$tmp/index.theme"
+
+echo "$stamp" >"$tmp/.stamp"
+chmod 755 "$tmp"
+rm -rf "$dest"
+mv "$tmp" "$dest"
+trap - EXIT
+
+# Omarchy already pointed GNOME at Omarchy-Accent before this hook ran; bounce
+# the setting so running GTK apps reload the freshly built icons.
+if [[ -n ${DBUS_SESSION_BUS_ADDRESS:-} ]]; then
+  gsettings set org.gnome.desktop.interface icon-theme "Yaru-blue-dark"
+  gsettings set org.gnome.desktop.interface icon-theme "Omarchy-Accent"
+fi
