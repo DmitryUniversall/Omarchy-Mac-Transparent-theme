@@ -1,0 +1,7 @@
+# Replaces [tooltip] (was the waybar tooltip style).
+[tooltip]
+background       = "#171717"
+background-alpha = 0.75
+text             = "#eaeaef"
+border           = "#3a3a3a"
+border-alpha     = 1.0

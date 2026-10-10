@@ -1,0 +1,10 @@
+# Replaces the [bar] section of the generated shell.toml.
+# Was waybar.css: a dark glass strip, blurred by the layer rule in hyprland.lua.
+[bar]
+background       = "#1a1b1e"
+background-alpha = 0.3
+text             = "#eaeaef"
+active           = "#ef5d67"
+scale-with-font  = true
+size-horizontal  = 26
+size-vertical    = 28

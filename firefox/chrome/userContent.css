@@ -1,0 +1,16 @@
+/* Mac Transparent for Firefox: new tab / home page in the theme's colors. */
+
+@-moz-document url("about:newtab"), url("about:home"), url("about:privatebrowsing") {
+  :root {
+    --newtab-background-color: #1a1b1e !important;
+    --newtab-background-color-secondary: #2b2d31 !important;
+    --newtab-text-primary-color: #eaeaef !important;
+    --background-color-canvas: #1a1b1e !important;
+    --text-color: #eaeaef !important;
+  }
+
+  body {
+    background-color: #1a1b1e !important;
+    color: #eaeaef !important;
+  }
+}

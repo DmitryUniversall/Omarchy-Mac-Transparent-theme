@@ -1,12 +1,7 @@
+# Imported by ~/.config/alacritty/alacritty.toml. Only the background is
+# translucent; text stays fully opaque. Hyprland blurs what is behind it.
 [window]
-decorations = "none"
-padding = { x = 18, y = 14 }
 opacity = 0.55
-
-[font]
-size = 11.0
-
-[colors]
 
 [colors.primary]
 background = "#1a1b1e"
@@ -16,30 +11,42 @@ foreground = "#eaeaef"
 text = "#2b2d31"
 cursor = "#f2a0a0"
 
-[colors.normal]
-black   = "#2b2d31"
-red     = "#ef5d67"
-green   = "#8edb73"
-yellow  = "#f7c553"
-blue    = "#7ca5ff"
-magenta = "#e29ef3"
-cyan    = "#7dd8d3"
-white   = "#f8f8fa"
+[colors.vi_mode_cursor]
+text = "#2b2d31"
+cursor = "#bfc6ff"
 
-[colors.bright]
-black   = "#505258"
-red     = "#ff7680"
-green   = "#a2ee8b"
-yellow  = "#ffd86f"
-blue    = "#97b6ff"
-magenta = "#efb5f9"
-cyan    = "#94e8e3"
-white   = "#ffffff"
+[colors.search.matches]
+foreground = "#1a1b1e"
+background = "#f7c553"
+
+[colors.search.focused_match]
+foreground = "#1a1b1e"
+background = "#ef5d67"
+
+[colors.footer_bar]
+foreground = "#1a1b1e"
+background = "#eaeaef"
 
 [colors.selection]
 text = "#2b2d31"
 background = "#b2c3ff"
 
-[colors.vi_mode_cursor]
-text   = "#2b2d31"
-cursor = "#bfc6ff"
+[colors.normal]
+black = "#2b2d31"
+red = "#ef5d67"
+green = "#8edb73"
+yellow = "#f7c553"
+blue = "#7ca5ff"
+magenta = "#e29ef3"
+cyan = "#7dd8d3"
+white = "#f8f8fa"
+
+[colors.bright]
+black = "#505258"
+red = "#ff7680"
+green = "#a2ee8b"
+yellow = "#ffd86f"
+blue = "#97b6ff"
+magenta = "#efb5f9"
+cyan = "#94e8e3"
+white = "#ffffff"

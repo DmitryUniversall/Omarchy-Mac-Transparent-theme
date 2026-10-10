@@ -1,0 +1,13 @@
+# Replaces [lock]: the lock screen password field (was hyprlock.conf).
+[lock]
+background       = "#1a1b1e"
+background-alpha = 0.4
+text             = "#eaeaef"
+placeholder      = "#8a8b8f"
+text-error       = "#ef5d67"
+border           = "#3a3a3a"
+border-active    = "hyprland.active-border"
+border-error     = "#ef5d67"
+border-alpha     = 1.0
+selection        = "#7ca5ff"
+selection-alpha  = 0.45

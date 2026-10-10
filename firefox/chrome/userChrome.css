@@ -1,0 +1,76 @@
+/* Mac Transparent for Firefox — matches the Omarchy theme of the same name.
+ *
+ * Needs toolkit.legacyUserProfileCustomizations.stylesheets = true (see
+ * ../user.js). Written against Firefox 157 (the "Nova" UI): it only overrides
+ * Firefox's own color tokens, so the layout stays stock.
+ *
+ * Tune the glass with --mt-bg (toolbar/tab strip) and --mt-bg-raised (menus,
+ * address bar dropdown). The last number is opacity: 0 = clear, 1 = solid.
+ */
+
+:root {
+  --mt-bg: rgba(26, 27, 30, 0.55);
+  --mt-bg-raised: rgba(26, 27, 30, 0.88);
+  --mt-bg-solid: #1a1b1e;
+  --mt-fg: #eaeaef;
+  --mt-fg-dim: #9a9ca3;
+  --mt-accent: #7ca5ff;
+  --mt-line: rgba(255, 255, 255, 0.1);
+  --mt-line-strong: rgba(255, 255, 255, 0.4);
+  --mt-fill: rgba(255, 255, 255, 0.06);
+  --mt-fill-strong: rgba(255, 255, 255, 0.12);
+
+  color-scheme: dark !important;
+
+  /* Window frame: the body and tab strip paint this, so it is the glass. */
+  --toolbox-background-color: var(--mt-bg) !important;
+  --toolbox-background-color-inactive: var(--mt-bg) !important;
+  --toolbox-text-color: var(--mt-fg) !important;
+  --toolbox-text-color-inactive: var(--mt-fg-dim) !important;
+
+  /* Toolbars sit on the frame without adding a second tint. */
+  --toolbar-background-color: transparent !important;
+  --toolbar-text-color: var(--mt-fg) !important;
+  --toolbarbutton-icon-fill: var(--mt-fg) !important;
+  --toolbarseparator-color: var(--mt-line) !important;
+
+  /* Address and search fields. */
+  --toolbar-field-background-color: var(--mt-fill) !important;
+  --toolbar-field-background-color-focus: var(--mt-bg-raised) !important;
+  --toolbar-field-text-color: var(--mt-fg) !important;
+  --toolbar-field-text-color-focus: var(--mt-fg) !important;
+  --toolbar-field-border-color: var(--mt-line) !important;
+  --toolbar-field-border-color-focus: var(--mt-line-strong) !important;
+  --urlbarview-background-color-hover: var(--mt-fill) !important;
+  --urlbarview-background-color-selected: var(--mt-fill-strong) !important;
+  --urlbarview-text-color-selected: #ffffff !important;
+
+  /* Tabs: frosted pill with a thin white edge, like the window borders. */
+  --tab-background-color-hover: var(--mt-fill) !important;
+  --tab-background-color-selected: var(--mt-fill-strong) !important;
+  --tab-border-color-selected: var(--mt-line-strong) !important;
+  --tab-box-shadow-selected: none !important;
+
+  /* Menus and panels. */
+  --panel-background-color: var(--mt-bg-raised) !important;
+  --panel-text-color: var(--mt-fg) !important;
+  --panel-border-color: var(--mt-line-strong) !important;
+  --panel-separator-color: var(--mt-line) !important;
+
+  /* Sidebar shows the frame through it. */
+  --sidebar-background-color: transparent !important;
+  --sidebar-text-color: var(--mt-fg) !important;
+  --sidebar-border-color: var(--mt-line) !important;
+  --chrome-content-separator-color: var(--mt-line) !important;
+
+  /* Behind a page while it loads. Pages themselves stay opaque. */
+  --tabpanel-background-color: var(--mt-bg-solid) !important;
+
+  --focus-outline-color: var(--mt-accent) !important;
+  --color-accent-primary: var(--mt-accent) !important;
+}
+
+/* Let the compositor see through the window, so Hyprland can blur behind it. */
+#main-window {
+  background: transparent !important;
+}

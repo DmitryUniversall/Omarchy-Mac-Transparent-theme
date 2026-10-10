@@ -1,0 +1,8 @@
+# Replaces [notifications] (was mako.ini).
+[notifications]
+background       = "#1a1b1e"
+background-alpha = 0.3
+text             = "#eaeaef"
+border           = "hyprland.active-border"
+border-alpha     = 1.0
+countdown        = "#eaeaef"

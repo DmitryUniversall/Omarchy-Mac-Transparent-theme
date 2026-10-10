@@ -1,0 +1,7 @@
+# Replaces [popups]: bar flyouts and the volume/brightness OSD (was swayosd.css).
+[popups]
+background       = "#1a1b1e"
+background-alpha = 0.5
+text             = "#eaeaef"
+border           = "hyprland.active-border"
+border-alpha     = 1.0

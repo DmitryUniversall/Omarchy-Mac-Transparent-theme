@@ -1,0 +1,15 @@
+# Replaces [menu] (was walker.css). The scrim stays under the 0.1
+# ignore_alpha threshold in hyprland.lua, so only the card gets blurred.
+[menu]
+background                = "#1a1b1e"
+background-alpha          = 0.3
+text                      = "#eaeaef"
+border                    = "hyprland.active-border"
+border-alpha              = 1.0
+scrim                     = "#000000"
+scrim-alpha               = 0.05
+selected-background       = "#f0f0f0"
+selected-background-alpha = 0.15
+selected-text             = "#ffffff"
+selected-border           = "#f0f0f0"
+selected-border-alpha     = 0.6

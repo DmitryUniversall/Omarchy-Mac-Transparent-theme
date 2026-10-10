@@ -1,0 +1,41 @@
+# Mac Transparent — palette from the original theme's alacritty.toml / gtk.css
+# (the one shown in its screenshots). Every app Omarchy themes from a template
+# derives its colors from this file.
+mode = "dark"
+
+accent = "#7ca5ff"
+selection = "#3a3d44"
+selection_foreground = "#2b2d31"
+selection_background = "#b2c3ff"
+muted = "#505258"
+
+background = "#1a1b1e"
+dark_background = "#141517"
+darker_background = "#0e0f10"
+lighter_background = "#2b2d31"
+
+foreground = "#eaeaef"
+dark_foreground = "#9a9ca3"
+light_foreground = "#f2f2f5"
+bright_foreground = "#ffffff"
+
+red = "#ef5d67"
+yellow = "#f7c553"
+orange = "#ff9e64"
+green = "#8edb73"
+cyan = "#7dd8d3"
+blue = "#7ca5ff"
+magenta = "#e29ef3"
+brown = "#a87a5c"
+
+bright_red = "#ff7680"
+bright_yellow = "#ffd86f"
+bright_green = "#a2ee8b"
+bright_cyan = "#94e8e3"
+bright_blue = "#97b6ff"
+bright_magenta = "#efb5f9"
+
+# Soft white glass border; the shell's popups, notifications and lock screen
+# reuse it through shell.toml's [hyprland] tokens.
+hyprland_active_border = "rgba(ffffff66) rgba(ffffff22) 90deg"
+hyprland_inactive_border = "rgba(3a3a3a60)"
