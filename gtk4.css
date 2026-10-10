@@ -1,0 +1,55 @@
+/* Mac Transparent for Files (Nautilus).
+ *
+ * Copied to ~/.config/gtk-4.0/gtk.css by hooks/theme-set-gtk4 while this theme
+ * is active. Everything is scoped to window.view, which only Nautilus' main
+ * window uses, so other GTK 4 / libadwaita apps keep their stock look.
+ *
+ * The window paints the glass once; headerbar, sidebar and file view stay
+ * transparent on top of it so the tint doesn't stack. Hyprland blurs what is
+ * behind the window. Tune the glass with the last number of the
+ * background-color below (0 = clear, 1 = solid).
+ */
+
+window.view {
+  background-color: rgba(26, 27, 30, 0.55);
+
+  --window-bg-color: transparent;
+  --window-fg-color: #eaeaef;
+  --view-bg-color: transparent;
+  --view-fg-color: #eaeaef;
+
+  --headerbar-bg-color: transparent;
+  --headerbar-fg-color: #eaeaef;
+  --headerbar-backdrop-color: transparent;
+  --headerbar-border-color: rgba(255, 255, 255, 0.1);
+  --headerbar-shade-color: rgba(255, 255, 255, 0.06);
+  --headerbar-darker-shade-color: rgba(255, 255, 255, 0.1);
+
+  --sidebar-bg-color: rgba(255, 255, 255, 0.04);
+  --sidebar-fg-color: #eaeaef;
+  --sidebar-backdrop-color: rgba(255, 255, 255, 0.02);
+  --sidebar-border-color: rgba(255, 255, 255, 0.1);
+  --sidebar-shade-color: rgba(0, 0, 0, 0.15);
+
+  --card-bg-color: rgba(255, 255, 255, 0.06);
+  --card-fg-color: #eaeaef;
+  --card-shade-color: rgba(0, 0, 0, 0.2);
+  --thumbnail-bg-color: rgba(255, 255, 255, 0.06);
+  --thumbnail-fg-color: #eaeaef;
+
+  /* Menus and in-window dialogs sit over the file list, so keep them denser. */
+  --popover-bg-color: rgba(26, 27, 30, 0.88);
+  --popover-fg-color: #eaeaef;
+  --popover-shade-color: rgba(0, 0, 0, 0.25);
+  --dialog-bg-color: rgba(26, 27, 30, 0.94);
+  --dialog-fg-color: #eaeaef;
+
+  --accent-bg-color: #7ca5ff;
+  --accent-fg-color: #1a1b1e;
+  --accent-color: #7ca5ff;
+}
+
+/* Thin white edge around popovers, like the window borders. */
+window.view popover > contents {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}

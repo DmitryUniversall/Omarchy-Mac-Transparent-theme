@@ -7,7 +7,8 @@
 
 Прозрачные терминалы с размытием, мягкие белые полупрозрачные рамки, тени,
 «водяные» анимации окон из оригинала, матовое стекло под баром, уведомлениями,
-меню, OSD и экраном блокировки. В комплекте тема для Firefox.
+меню, OSD и экраном блокировки. В комплекте темы для «Файлов» (Nautilus)
+и Firefox.
 
 Скриншоты в `screenshots/` сняты с оригинальной версии для Omarchy 3. В
 Omarchy 4 бар встроенный, поэтому выглядит иначе.
@@ -17,6 +18,7 @@ Omarchy 4 бар встроенный, поэтому выглядит инач�
 ```bash
 git clone --depth 1 https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
 ln -s ~/.local/share/mac-transparent-theme ~/.config/omarchy/themes/mac-transparent
+omarchy hook install theme-set ~/.local/share/mac-transparent-theme/hooks/theme-set-gtk4
 omarchy theme set "Mac Transparent"
 hyprctl configerrors   # должно быть пусто
 ```
@@ -50,6 +52,7 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 | `walker.css`              | `shell.menu.toml`, `shell.launcher.toml`           |
 | `swayosd.css`             | `shell.popups.toml`                                |
 | `hyprlock.conf`           | `shell.lock.toml`                                  |
+| `gtk.css`                 | `gtk4.css` («Файлы») + `hooks/theme-set-gtk4`      |
 | `btop.theme`, `icons.theme`, `backgrounds/` | без изменений по смыслу          |
 
 Каждый `shell.<секция>.toml` заменяет только свою секцию в `shell.toml`,
@@ -59,7 +62,6 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 Не перенесено:
 - `waybar/config.jsonc` и визуализатор cava: в Omarchy 4 нет waybar, раскладка
   бара хранится в `~/.config/omarchy/shell.json` и к теме не относится.
-- `gtk.css`: Omarchy 4 его не читает.
 - `neovim.lua`: Omarchy генерирует его из `colors.toml`, а прозрачный фон в
   Neovim включает его стандартный конфиг.
 - `chromium.theme`: генерируется тёмным из цвета фона.
@@ -76,6 +78,7 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 | Меню, лаунчер, уведомления     | `shell.menu.toml`, `shell.launcher.toml`, `shell.notifications.toml` | `background-alpha` | 0.3 |
 | OSD и выпадашки бара           | `shell.popups.toml`                     | `background-alpha`          | 0.5         |
 | Экран блокировки               | `shell.lock.toml`                       | `background-alpha`          | 0.4         |
+| «Файлы» (Nautilus)             | `gtk4.css`                              | альфа в `background-color`  | 0.55        |
 | Все остальные окна             | `hyprland.lua`                          | `active_opacity` / `inactive_opacity` | 1.0 / 0.95 |
 | Сила размытия                  | `hyprland.lua`                          | `blur.size` / `blur.passes` | 4 / 3       |
 
@@ -86,6 +89,21 @@ OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy theme set "Mac Transparent"
 `~/.config/hypr/looknfeel.lua` загружается после темы, поэтому заданные там
 отступы, толщина рамки, скругление и анимация рабочих столов перекрывают
 значения темы.
+
+## «Файлы» (Nautilus)
+
+`gtk4.css` делает окно «Файлов» таким же стеклянным: полупрозрачное окно,
+прозрачные заголовок и список файлов, едва заметная боковая панель, более
+плотные меню и диалоги, синий акцент темы. Стили привязаны только к главному
+окну Nautilus, остальные GTK 4 / libadwaita-приложения выглядят как обычно.
+
+GTK читает один пользовательский файл стилей, `~/.config/gtk-4.0/gtk.css`.
+Хук `theme-set-gtk4` (см. «Установка») копирует туда `gtk4.css`, пока активна
+эта тема, и удаляет его при переключении на тему без него. Собственный
+`gtk.css` пользователя он не трогает. GTK читает файл один раз при запуске, а
+«Файлы» продолжают работать в фоне, поэтому после смены темы закройте все окна
+«Файлов» и выполните `nautilus -q`. Если ни одно окно не открыто, хук делает
+это сам.
 
 ## Firefox
 

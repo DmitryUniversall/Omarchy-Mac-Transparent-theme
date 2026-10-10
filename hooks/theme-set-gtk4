@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Omarchy theme-set hook: hand the current theme's gtk4.css to GTK 4 apps.
+# Install with: omarchy hook install theme-set hooks/theme-set-gtk4
+#
+# A theme that ships gtk4.css gets it copied to ~/.config/gtk-4.0/gtk.css;
+# any other theme gets stock GTK styling back. A gtk.css you wrote yourself
+# (one without the marker line) is never touched.
+
+theme_css="$HOME/.local/state/omarchy/current/theme/gtk4.css"
+user_css="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-4.0/gtk.css"
+marker="/* Managed by the Omarchy theme-set-gtk4 hook. Edits are overwritten on theme change. */"
+
+if [[ -f $user_css ]] && ! grep -qF "$marker" "$user_css"; then
+  exit 0
+fi
+
+if [[ -f $theme_css ]]; then
+  mkdir -p "${user_css%/*}"
+  { echo "$marker"; cat "$theme_css"; } >"$user_css"
+elif [[ -f $user_css ]]; then
+  rm "$user_css"
+else
+  exit 0
+fi
+
+# GTK reads gtk.css once per process, and Files stays resident as a D-Bus
+# service after its last window closes. Restart it only when no Files window
+# is open, so nothing the user has open gets closed; otherwise the new look
+# shows up the next time Files starts.
+if pgrep -x nautilus >/dev/null &&
+  ! hyprctl clients -j 2>/dev/null | jq -e 'any(.[]; .class == "org.gnome.Nautilus")' >/dev/null; then
+  nautilus --quit
+fi
