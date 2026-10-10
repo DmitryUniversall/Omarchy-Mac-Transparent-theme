@@ -15,7 +15,7 @@ Omarchy 4 бар встроенный, поэтому выглядит инач�
 ## Установка
 
 ```bash
-git clone https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
+git clone --depth 1 https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
 ln -s ~/.local/share/mac-transparent-theme ~/.config/omarchy/themes/mac-transparent
 omarchy theme set "Mac Transparent"
 hyprctl configerrors   # должно быть пусто
@@ -25,6 +25,9 @@ hyprctl configerrors   # должно быть пусто
 `~/.config/omarchy/themes`, Omarchy считает сторонней и выбрасывает
 `hyprland.lua` и конфиги терминалов, а вся прозрачность и размытие живут
 именно в них. Симлинк на свой клон считается вашей собственной темой.
+
+`--depth 1` не скачивает около 80 МБ обоев, которые автор оригинала
+когда-то добавил, а потом удалил: в полном клоне они остаются в истории git.
 
 Обновление:
 

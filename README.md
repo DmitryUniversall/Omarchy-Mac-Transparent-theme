@@ -20,7 +20,7 @@ built-in Omarchy shell, so it looks different.
 ## Install
 
 ```bash
-git clone https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
+git clone --depth 1 https://github.com/DmitryUniversall/Omarchy-Mac-Transparent-theme ~/.local/share/mac-transparent-theme
 ln -s ~/.local/share/mac-transparent-theme ~/.config/omarchy/themes/mac-transparent
 omarchy theme set "Mac Transparent"
 hyprctl configerrors   # should print nothing
@@ -30,6 +30,9 @@ Don't use `omarchy theme install <url>`. Omarchy treats a theme cloned into
 `~/.config/omarchy/themes` as third-party and drops its `hyprland.lua` and
 terminal configs, which is exactly where the blur and transparency live. A
 symlink to your own clone counts as your own theme.
+
+`--depth 1` skips about 80 MB of wallpapers the original author added and
+later removed; they stay in the git history of a full clone.
 
 Update:
 
